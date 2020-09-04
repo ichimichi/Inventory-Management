@@ -48,13 +48,13 @@ class Item(models.Model):
         outgoing = Transaction.objects.filter(type='O')
         for t in outgoing:
             try:
-                temp = TransactionDetails.objects.filter(transaction=t, item=self.id).values_list('quanity', flat=True)[0]
+                temp = TransactionDetails.objects.filter(transaction=t, item=self.id).values_list('quantity', flat=True)[0]
             except:
                 temp = 0
             out_sum += temp
         for t in incoming:
             try:
-                temp = TransactionDetails.objects.filter(transaction=t, item=self.id).values_list('quanity', flat=True)[0]
+                temp = TransactionDetails.objects.filter(transaction=t, item=self.id).values_list('quantity', flat=True)[0]
             except:
                 temp = 0
             in_sum += temp
@@ -74,7 +74,7 @@ class TransactionDetails(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete= models.DO_NOTHING)
 
-    quanity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=1)
 
 
 

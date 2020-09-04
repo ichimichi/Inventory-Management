@@ -7,10 +7,16 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=50)
     age = models.IntegerField()
 
+    def __str__(self):
+        return str(self.first_name)+' '+str(self.last_name)
+
 class Item(models.Model):
     # item_id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=50)
     brand = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.brand)+' '+str(self.name)
 
 
 TRANSACTION_TYPE = (

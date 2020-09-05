@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Department</title>
+</head>
+<body>
+<h2>{{name}} Department Recent Activity</h2>
+    <table width="25%">
+        <tr align="left">
+            <th>Date and Time</th>
+            <th>Type</th>
+        </tr>
+        {% for date,type in transactions %}
+            {% if value != 0 %}
+                <tr>
+                    <td>{{date}}</td>
+                    <td>{{type}}</td>
+                </tr>
+            {%endif%}
+        {% endfor %}
+    </table>
+</body>
+</html>

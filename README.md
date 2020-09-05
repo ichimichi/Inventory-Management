@@ -23,5 +23,5 @@
     `$ python manage.py runserver 8090`
 * step 6
 
-    open http://127.0.0.1:8090/admin/ 
+    open [http://127.0.0.1:8089/app/](http://127.0.0.1:8089/app/)
 

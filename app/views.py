@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -13,19 +14,12 @@ def department(request, department_id):
   return HttpResponse(output)
 
 def inventory(request, department_id):
-  num_items = Item.objects.count()
-  counts = [0]*num_items
-  items = []
-  transactions = Transaction.objects.filter(department = department_id)
-  t_details = [TransactionDetails.objects.filter(transaction=t) for t in transactions]
-  for t in t_details:
-    for t_ in t:
-      counts[t_.item_id-1] += t_.quantity
-
+  items = [e.id for e in Item.objects.all()]
+  names = [' '.join([e.brand,e.name]) for e in Item.objects.all()]
   inv = {}
-  for i, count in enumerate(counts):
-    name = ' '.join([x for x in Item.objects.filter(id=i+1).values_list('brand','name')[0]])
-    inv[name] = count
+  for item, name in zip(items,names):
+    inv[name] = TransactionDetails.objects.filter(transaction__department=department_id, transaction__type='O', item__id=item).aggregate(Sum('quantity'))['quantity__sum']
+
   return render(request, 'app/inventory.html', {'d': inv, 'name': dict(DEPARTMENT_TYPE)[department_id]})
 
 def employee(request, department_id):

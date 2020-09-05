@@ -6,7 +6,7 @@ from django.shortcuts import render
 from app.models import TransactionDetails, Transaction, Item, Department, DEPARTMENT_TYPE
 
 def index(request):
-  return HttpResponse("Hello, welcome to the inventory management project.")
+  return render(request, 'app/index.html', {})
 
 def department(request, department_id):
   transactions = Transaction.objects.filter(department = department_id)[:5]

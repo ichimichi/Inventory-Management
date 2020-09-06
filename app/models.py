@@ -37,27 +37,17 @@ class Employee(models.Model):
 
 
 class Item(models.Model):
-    # item_id = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=64)
     brand = models.CharField(max_length=64)
 
+    @property
     def quantity(self):
         in_sum = 0
         out_sum = 0
-        incoming = Transaction.objects.filter(type='I')
-        outgoing = Transaction.objects.filter(type='O')
-        for t in outgoing:
-            try:
-                temp = TransactionDetails.objects.filter(transaction=t, item=self.id).values_list('quantity', flat=True)[0]
-            except:
-                temp = 0
-            out_sum += temp
-        for t in incoming:
-            try:
-                temp = TransactionDetails.objects.filter(transaction=t, item=self.id).values_list('quantity', flat=True)[0]
-            except:
-                temp = 0
-            in_sum += temp
+        for t in TransactionDetails.objects.filter(transaction__type='O', item=self.id):
+            out_sum += t.quantity
+        for t in TransactionDetails.objects.filter(transaction__type='I', item=self.id):
+            in_sum += t.quantity
         return in_sum-out_sum
 
     def __str__(self):
